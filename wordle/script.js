@@ -12,7 +12,7 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const randomInteger = getRandomInt(0, 99); // Generate a random integer between 1 and 100
+const randomInteger = getRandomInt(0, 99);
 
 const words = ["apple", "beach", "cloud", "dance", "earth", "faith", "grape", "house", "image", "juice", "kiosk", "lemon", "music", "night", "olive", "peace", "quiet", "river", "sugar", "teach", "umbra", "vivid", "watch", "xenon", "young", "zebra", "amber", "brave", "chess", "drift", "eagle", "flora", "giant", "happy", "ivory", "jolly", "koala", "leash", "maple", "novel", "ocean", "piano", "quick", "rhyme", "scent", "theme", "unity", "verse", "whale", "xerox", "yield", "zealot", "almond", "baker", "coast", "drift", "elixir", "fable", "globe", "hazel", "ivory", "jumbo", "kiwi", "laser", "mango", "noble", "oasis", "prism", "quilt", "rifle", "sable", "tiger", "ultra", "vital", "whisk", "xylan", "youth", "zebra", "amuse", "bliss", "clove", "daisy", "elite", "flame", "giddy", "halcy", "inlay", "jewel", "kiwif", "lilac", "mirth", "novel", "onset", "pique", "quest", "radar", "savor", "taste", "umbra", "venom", "whiff", "xenon", "yield", "zebra"];
 
@@ -146,3 +146,73 @@ function Reveal() {
     alert(`Sorry, We don't have time for hackers. The answer is ${ans}`);
     window.location.href = './index.html';
 }
+
+function isLetter(char) {
+    return /^[a-zA-Z]$/.test(char);
+}
+
+document.addEventListener('keyup', (event) => {
+    const keyPress = event.key;
+    console.log("Pressed key: ", keyPress, typeof(keyPress));
+    if (keyPress.length == 1) {
+        if (isLetter(keyPress)) {
+            if (usr.length < 5) {
+                const temp = currGrid + "";
+                const currElement = document.getElementById(`${temp}`);
+                console.log(keyPress.toUpperCase());
+                currElement.innerHTML = keyPress.toUpperCase();
+                usr += keyPress.toUpperCase();
+                currGrid++;
+            }
+        }
+        else {
+            alert("Please enter a valid key");
+        }
+    }
+    else if (keyPress == "Backspace") {
+        if (usr != '') {
+            clearOne();
+            usr = usr.slice(0, -1);
+        }
+    }
+    else if (keyPress == "Enter") {
+        if (usr === ans) {  // win
+            evaluate(currGrid - 5, currGrid - 1, currGrid - 5);
+            setTimeout(() => {
+                alert("YOU WIN!");
+                window.location.href = './index.html';
+            }, 2000);
+        }
+        else if (currGrid == 31 && isValidWord(usr)) {  // couldn't guess
+            evaluate(currGrid - 5, currGrid - 1, currGrid - 5);
+            setTimeout(() => {
+                alert(`YOU LOSE!, The answer is ${ans}`);
+                window.location.href = './index.html';
+            }, 2000);
+        }
+        if (usr.length == 5) {  // if the word is 5 lettered
+            if (isValidWord(usr)) {  // handling valid word
+                // console.log("it is valid");
+                evaluate(currGrid - 5, currGrid - 1, currGrid - 5);
+            }
+            else {  // invalid word
+                alert("Enter a valid 5 letter english word");
+                do {
+                    clearOne();
+                } while (currGrid % 5 > 1 || currGrid % 5 == 0);
+            }
+            usr = '';
+        }
+        else {
+            alert("Enter a 5 letter word");
+        }
+    }
+    else if (keyPress == "Shift") {
+        if (usr != '') {
+            usr = '';
+            do {
+                clearOne();
+            } while (currGrid % 5 > 1 || currGrid % 5 == 0);
+        }
+    }
+})
