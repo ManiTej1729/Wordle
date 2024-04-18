@@ -153,13 +153,13 @@ function isLetter(char) {
 
 document.addEventListener('keyup', (event) => {
     const keyPress = event.key;
-    console.log("Pressed key: ", keyPress, typeof(keyPress));
+    // console.log("Pressed key: ", keyPress, typeof(keyPress));
     if (keyPress.length == 1) {
         if (isLetter(keyPress)) {
             if (usr.length < 5) {
                 const temp = currGrid + "";
                 const currElement = document.getElementById(`${temp}`);
-                console.log(keyPress.toUpperCase());
+                // console.log(keyPress.toUpperCase());
                 currElement.innerHTML = keyPress.toUpperCase();
                 usr += keyPress.toUpperCase();
                 currGrid++;
