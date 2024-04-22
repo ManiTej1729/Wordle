@@ -143,7 +143,7 @@ function print() {
 }
 
 function Reveal() {
-    alert(`Sorry, We don't have time for hackers. The answer is ${ans}`);
+    alert(`The answer is ${ans}`);
     window.location.href = './index.html';
 }
 
